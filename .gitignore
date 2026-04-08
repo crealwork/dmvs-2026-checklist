@@ -1,0 +1,3 @@
+*.pdf
+km-temp/
+generate_pdf.py

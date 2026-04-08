@@ -1,0 +1,1568 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DMVS 2026 — 웹사이트 런칭 키트: 완벽 셋업 체크리스트</title>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" rel="stylesheet">
+<style>
+  /* ── Reset & Base ── */
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --green: #03c659;
+    --green-light: #e8faf0;
+    --green-dark: #029a45;
+    --dark: #1a1a1a;
+    --dark-header: #111111;
+    --gray-600: #666666;
+    --gray-400: #9ca3af;
+    --gray-200: #e5e7eb;
+    --gray-100: #f3f4f6;
+    --gray-50: #f9fafb;
+    --white: #ffffff;
+    --radius: 12px;
+    --radius-sm: 8px;
+    --shadow-card: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+    --shadow-card-hover: 0 8px 25px rgba(3,198,89,0.08), 0 4px 10px rgba(0,0,0,0.06);
+    --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--gray-50);
+    color: var(--dark);
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* ── Header ── */
+  .header {
+    background: var(--dark-header);
+    padding: 48px 0 56px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .header::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -10%;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(3,198,89,0.12) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+
+  .header::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--green), var(--green-dark), var(--green));
+  }
+
+  .header-inner {
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 0 24px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .header-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(3,198,89,0.15);
+    color: var(--green);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    border-radius: 100px;
+    border: 1px solid rgba(3,198,89,0.25);
+    margin-bottom: 20px;
+  }
+
+  .header-badge svg { width: 14px; height: 14px; }
+
+  .header h1 {
+    font-size: 32px;
+    font-weight: 800;
+    color: var(--white);
+    line-height: 1.25;
+    letter-spacing: -0.02em;
+    margin-bottom: 12px;
+  }
+
+  .header p {
+    font-size: 16px;
+    color: var(--gray-400);
+    line-height: 1.6;
+    max-width: 520px;
+  }
+
+  /* ── Progress Bar ── */
+  .progress-bar-wrapper {
+    max-width: 880px;
+    margin: -24px auto 0;
+    padding: 0 24px;
+    position: relative;
+    z-index: 10;
+  }
+
+  .progress-card {
+    background: var(--white);
+    border-radius: var(--radius);
+    padding: 20px 24px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .progress-stats {
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+    flex-shrink: 0;
+    min-width: 80px;
+  }
+
+  .progress-count {
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--green);
+    line-height: 1;
+  }
+
+  .progress-total {
+    font-size: 14px;
+    color: var(--gray-400);
+    font-weight: 500;
+  }
+
+  .progress-track {
+    flex: 1;
+    height: 8px;
+    background: var(--gray-100);
+    border-radius: 100px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--green), #06d66a);
+    border-radius: 100px;
+    transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .progress-percent {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--gray-600);
+    flex-shrink: 0;
+    min-width: 36px;
+    text-align: right;
+  }
+
+  /* ── Main Content ── */
+  .main {
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+  }
+
+  /* ── Section ── */
+  .section {
+    margin-bottom: 32px;
+    opacity: 0;
+    transform: translateY(16px);
+    animation: fadeUp 0.5s ease forwards;
+  }
+  .section:nth-child(1) { animation-delay: 0.05s; }
+  .section:nth-child(2) { animation-delay: 0.1s; }
+  .section:nth-child(3) { animation-delay: 0.15s; }
+  .section:nth-child(4) { animation-delay: 0.2s; }
+  .section:nth-child(5) { animation-delay: 0.25s; }
+  .section:nth-child(6) { animation-delay: 0.3s; }
+  .section:nth-child(7) { animation-delay: 0.35s; }
+  .section:nth-child(8) { animation-delay: 0.4s; }
+
+  @keyframes fadeUp {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 8px;
+  }
+
+  .section-number {
+    width: 40px;
+    height: 40px;
+    background: var(--green);
+    color: var(--white);
+    font-size: 16px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    flex-shrink: 0;
+    box-shadow: 0 2px 8px rgba(3,198,89,0.3);
+  }
+
+  .section-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--dark);
+    letter-spacing: -0.01em;
+  }
+
+  .section-desc {
+    font-size: 14px;
+    color: var(--gray-600);
+    line-height: 1.7;
+    margin-bottom: 12px;
+    padding: 0 4px 0 56px;
+  }
+
+  .section-card {
+    background: var(--white);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-card);
+    overflow: hidden;
+    transition: box-shadow var(--transition);
+    border: 1px solid var(--gray-200);
+  }
+
+  .section-card:hover {
+    box-shadow: var(--shadow-card-hover);
+  }
+
+  /* ── Checklist Item ── */
+  .item {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 18px 24px;
+    border-bottom: 1px solid var(--gray-100);
+    transition: background var(--transition);
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .item:last-child { border-bottom: none; }
+  .item:hover { background: var(--gray-50); }
+
+  .item.checked { background: rgba(3,198,89,0.03); }
+
+  .item.checked .item-title {
+    color: var(--gray-400);
+    text-decoration: line-through;
+    text-decoration-color: var(--gray-200);
+  }
+
+  .item.checked .item-url { opacity: 0.5; }
+
+  /* Custom Checkbox */
+  .checkbox {
+    width: 22px;
+    height: 22px;
+    border: 2px solid var(--gray-200);
+    border-radius: 6px;
+    flex-shrink: 0;
+    margin-top: 1px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition);
+    position: relative;
+  }
+
+  .checkbox svg {
+    width: 14px;
+    height: 14px;
+    opacity: 0;
+    transform: scale(0.5);
+    transition: all var(--transition);
+  }
+
+  .item.checked .checkbox {
+    background: var(--green);
+    border-color: var(--green);
+    box-shadow: 0 2px 6px rgba(3,198,89,0.3);
+  }
+
+  .item.checked .checkbox svg {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .item-content {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .item-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--dark);
+    line-height: 1.5;
+    transition: all var(--transition);
+  }
+
+  .item-url {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 13px;
+    color: var(--green-dark);
+    text-decoration: none;
+    margin-top: 4px;
+    padding: 3px 10px;
+    background: var(--green-light);
+    border-radius: 6px;
+    transition: all var(--transition);
+    word-break: break-all;
+  }
+
+  .item-url:hover {
+    background: rgba(3,198,89,0.15);
+    color: var(--green-dark);
+  }
+
+  .item-url svg {
+    width: 12px;
+    height: 12px;
+    flex-shrink: 0;
+  }
+
+  .item-tip {
+    display: flex;
+    align-items: flex-start;
+    gap: 6px;
+    margin-top: 8px;
+    font-size: 13px;
+    color: var(--gray-600);
+    line-height: 1.5;
+    padding: 8px 12px;
+    background: var(--gray-50);
+    border-radius: var(--radius-sm);
+    border-left: 3px solid var(--green);
+  }
+
+  .item-tip svg {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+    margin-top: 2px;
+    color: var(--green);
+  }
+
+  /* ── Detail Content (inside items) ── */
+  .item-detail {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px dashed var(--gray-200);
+  }
+
+  .item-desc {
+    font-size: 14px;
+    color: var(--gray-600);
+    line-height: 1.7;
+    margin-bottom: 8px;
+  }
+
+  .item-desc strong { color: var(--dark); }
+
+  .item-warning {
+    margin-top: 10px;
+    margin-bottom: 8px;
+    padding: 12px 14px;
+    background: #fffbeb;
+    border-radius: var(--radius-sm);
+    border-left: 3px solid #f59e0b;
+    font-size: 13px;
+    color: #78350f;
+    line-height: 1.65;
+  }
+
+  .item-warning strong { color: #92400e; }
+
+  .item-bullets {
+    margin: 8px 0;
+    padding-left: 20px;
+    font-size: 14px;
+    color: var(--gray-600);
+    line-height: 1.7;
+    list-style: disc;
+  }
+
+  .item-bullets li { margin-bottom: 4px; }
+  .item-bullets li strong { color: var(--dark); }
+
+  .item-numbered {
+    margin: 8px 0;
+    padding-left: 20px;
+    font-size: 14px;
+    color: var(--gray-600);
+    line-height: 1.7;
+    list-style-type: decimal;
+  }
+
+  .item-numbered li { margin-bottom: 4px; }
+  .item-numbered li strong { color: var(--dark); }
+
+  .item-code {
+    margin: 10px 0;
+    padding: 14px 16px;
+    background: var(--dark-header);
+    color: #d1d5db;
+    border-radius: var(--radius-sm);
+    font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+    font-size: 13px;
+    line-height: 1.7;
+    overflow-x: auto;
+    white-space: pre;
+  }
+
+  .item-image {
+    display: block;
+    margin: 12px 0;
+    border-radius: var(--radius-sm);
+    max-width: 100%;
+    border: 1px solid var(--gray-200);
+  }
+
+  .item-image-caption {
+    font-size: 12px;
+    color: var(--gray-400);
+    text-align: center;
+    margin-top: -4px;
+    margin-bottom: 8px;
+  }
+
+  .item-source {
+    font-size: 12px;
+    color: var(--gray-400);
+    margin-top: 8px;
+    font-style: italic;
+  }
+
+  .tag-kr {
+    display: inline-flex;
+    align-items: center;
+    font-size: 11px;
+    font-weight: 600;
+    color: #1d4ed8;
+    background: #eff6ff;
+    padding: 2px 8px;
+    border-radius: 4px;
+    margin-left: 6px;
+    vertical-align: middle;
+    letter-spacing: 0;
+  }
+
+  .item-sub-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--dark);
+    margin: 12px 0 6px;
+  }
+
+  .item-bonus-box {
+    margin-top: 10px;
+    padding: 12px 14px;
+    background: #eff6ff;
+    border-radius: var(--radius-sm);
+    border-left: 3px solid #3b82f6;
+    font-size: 13px;
+    color: #1e40af;
+    line-height: 1.65;
+  }
+
+  .item-bonus-box strong { color: #1e3a8a; }
+
+  /* ── Footer ── */
+  .footer {
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 0 24px 48px;
+  }
+
+  .footer-card {
+    background: var(--dark-header);
+    border-radius: var(--radius);
+    padding: 32px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .footer-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--green), var(--green-dark), var(--green));
+  }
+
+  .footer-label {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: 8px;
+  }
+
+  .footer-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 12px;
+  }
+
+  .footer-text {
+    font-size: 13px;
+    color: var(--gray-400);
+    line-height: 1.6;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+
+  .footer-copyright {
+    font-size: 12px;
+    color: var(--gray-600);
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+  }
+
+  /* ── Reset All Button ── */
+  .reset-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: none;
+    border: 1px solid var(--gray-200);
+    color: var(--gray-600);
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 8px 16px;
+    border-radius: 100px;
+    cursor: pointer;
+    transition: all var(--transition);
+    margin-top: 24px;
+  }
+
+  .reset-btn:hover {
+    border-color: #ef4444;
+    color: #ef4444;
+    background: #fef2f2;
+  }
+
+  .reset-btn svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  /* ── Print ── */
+  @media print {
+    body { background: white; }
+    .progress-bar-wrapper { display: none; }
+    .reset-btn { display: none; }
+    .header { padding: 32px 0 40px; break-after: avoid; }
+    .section { break-inside: avoid; opacity: 1; transform: none; animation: none; }
+    .section-card { box-shadow: none; border: 1px solid var(--gray-200); }
+    .item:hover { background: none; }
+    .footer-card { box-shadow: none; }
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 640px) {
+    .header h1 { font-size: 24px; }
+    .header { padding: 32px 0 40px; }
+    .progress-card { flex-wrap: wrap; gap: 12px; padding: 16px 20px; }
+    .progress-track { order: 3; width: 100%; }
+    .item { padding: 14px 18px; gap: 12px; }
+    .section-title { font-size: 17px; }
+    .section-number { width: 34px; height: 34px; font-size: 14px; border-radius: 8px; }
+    .section-desc { padding-left: 50px; }
+    .footer-card { padding: 24px 20px; }
+    .item-code { font-size: 11px; padding: 10px 12px; }
+  }
+
+  /* ── Confetti overlay ── */
+  .confetti-overlay {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .confetti-overlay.active { opacity: 1; }
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<header class="header">
+  <div class="header-inner">
+    <div class="header-badge">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+      DMVS 2026 Webinar
+    </div>
+    <h1>웹사이트 런칭 키트<br>완벽 셋업 체크리스트</h1>
+    <p>신규 웹사이트 제작 시 반드시 설정해야 할 항목들을 정리했습니다</p>
+  </div>
+</header>
+
+<!-- Progress Bar -->
+<div class="progress-bar-wrapper">
+  <div class="progress-card">
+    <div class="progress-stats">
+      <span class="progress-count" id="checkedCount">0</span>
+      <span class="progress-total">/ <span id="totalCount">0</span></span>
+    </div>
+    <div class="progress-track">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
+    <div class="progress-percent" id="progressPercent">0%</div>
+  </div>
+</div>
+
+<!-- Main Content -->
+<main class="main">
+
+  <!-- ============================================================ -->
+  <!-- 01. 검색엔진 등록 (SEO) -->
+  <!-- ============================================================ -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-number">01</div>
+      <div class="section-title">검색엔진 등록 (SEO): 구글을 넘어 점유율 확장하기</div>
+    </div>
+    <div class="section-desc">검색엔진에 웹사이트를 등록하면 크롤러가 사이트를 인식하고 색인할 수 있습니다. 이 단계를 건너뛰면 검색 결과에 사이트가 노출되기까지 수개월이 걸릴 수 있으므로, 런칭 직후 반드시 모든 주요 검색엔진에 등록해야 합니다.</div>
+    <div class="section-card">
+
+      <!-- 1. Google Search Console -->
+      <div class="item" onclick="toggleCheck(this)">
+        <div class="checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+        <div class="item-content">
+          <div class="item-title">Google Search Console: 반드시 'URL 접두어'로 등록</div>
+          <a class="item-url" href="https://search.google.com/search-console" target="_blank" rel="noopener" onclick="event.stopPropagation()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            search.google.com/search-console
+          </a>
+          <div class="item-detail" onclick="event.stopPropagation()">
+            <p class="item-desc"><strong>등록 이유</strong>: 전 세계 검색 트래픽 점유율 1위이며, Gemini(AI 검색) 결과에 내 사이트 정보를 가장 정확하게 전달하는 필수 도구입니다.</p>
+            <div class="item-warning">
+              <strong>주의사항</strong>: '도메인' 방식이 아닌 <strong>'URL접두어' 방식을 권장</strong>합니다.
+              <ul style="margin-top:6px; padding-left:18px; list-style:disc;">
+                <li><strong>데이터 분리</strong>: 서브도메인 데이터와 섞이지 않아 메인 성과를 명확히 측정할 수 있습니다.</li>
+                <li><strong>이슈 파악</strong>: URL별 에러 확인과 크롤 바젯(Crawl Budget) 관리가 용이합니다.</li>
+                <li><strong>링크 거부</strong>: 악성 백링크로부터 사이트를 보호하는 '링크 거부 기능'은 URL 접두어 방식에서만 원활히 사용 가능합니다.</li>
+              </ul>
+            </div>
+            <img class="item-image" src="images/gsc-url-prefix.jpg" alt="Google Search Console 속성 유형 선택 — URL 접두어 방식 권장">
+            <div class="item-image-caption">Google Search Console 속성 유형 선택 화면</div>
+            <p class="item-source">(주의사항 출처: threads @avcd.eee 계정)</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. 네이버 서치어드바이저 -->
+      <div class="item" onclick="toggleCheck(this)">
+        <div class="checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+        <div class="item-content">
+          <div class="item-title">Naver Search Advisor (네이버 서치어드바이저) <span class="tag-kr">한국</span></div>
+          <a class="item-url" href="https://searchadvisor.naver.com" target="_blank" rel="noopener" onclick="event.stopPropagation()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            searchadvisor.naver.com
+          </a>
+          <div class="item-detail" onclick="event.stopPropagation()">
+            <p class="item-desc"><strong>등록 이유</strong>: 국내 검색 시장 점유율 1위입니다. 네이버에 등록되지 않으면 한국 내 잠재 고객의 50% 이상을 놓치는 것과 같습니다.</p>
+            <div class="item-tip">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+              <strong>핵심 전략</strong>: 네이버는 특히 제목(Title)과 설명(Description) 태그의 규칙 준수를 까다롭게 봅니다.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. Bing Webmaster Tools -->
+      <div class="item" onclick="toggleCheck(this)">
+        <div class="checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+        <div class="item-content">
+          <div class="item-title">Bing Webmaster Tools 등록</div>
+          <a class="item-url" href="https://www.bing.com/webmasters" target="_blank" rel="noopener" onclick="event.stopPropagation()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            bing.com/webmasters
+          </a>
+          <div class="item-detail" onclick="event.stopPropagation()">
+            <p class="item-desc">Bing은 전 세계 점유율 약 3~4%이지만, <strong>북미 시장에서는 약 7~9%</strong>까지 상승합니다. 특히 AI 검색인 Copilot의 기반이 되므로 놓쳐선 안 될 시장입니다.</p>
+            <ul class="item-bullets">
+              <li><strong>장점</strong>: Google Search Console과 연동하면 별도 인증 없이 클릭 몇 번으로 사이트 정보를 가져올 수 있습니다.</li>
+              <li><strong>시너지</strong>: DuckDuckGo, Yahoo 등 다수의 검색엔진이 Bing의 인덱스를 공유하므로, 한 번의 등록으로 <strong>다중 채널 노출 효과</strong>를 얻을 수 있습니다.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. 다음 웹마스터 도구 -->
+      <div class="item" onclick="toggleCheck(this)">
+        <div class="checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+        <div class="item-content">
+          <div class="item-title">Daum 웹마스터 도구: PIN 코드로 인증 <span class="tag-kr">한국</span></div>
+          <a class="item-url" href="https://webmaster.daum.net" target="_blank" rel="noopener" onclick="event.stopPropagation()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            webmaster.daum.net
+          </a>
+          <div class="item-detail" onclick="event.stopPropagation()">
+            <p class="item-desc"><strong>등록 이유</strong>: 카카오톡 검색 및 국내 검색 엔진 유입을 최적화하기 위해 필수입니다.</p>
+            <div class="item-tip">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+              발급받은 PIN 코드를 사이트 루트 폴더의 robots.txt 파일에 직접 삽입하여 인증해야 합니다. 이 과정이 완료되어야 정상적으로 사이트맵 수집이 시작됩니다.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5. Pinterest -->
+      <div class="item" onclick="toggleCheck(this)">
+        <div class="checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+        <div class="item-content">
+          <div class="item-title">Pinterest (핀터레스트): 유입을 200% 상승시키는 비주얼 SEO</div>
+          <div class="item-detail" onclick="event.stopPropagation()">
+            <p class="item-desc">핀터레스트는 SNS를 넘어선 <strong>'이미지 기반 검색 엔진'</strong>입니다. 한 번 세팅해두면 자고 있는 동안에도 트래픽을 가져다주는 자동 유입 통로가 됩니다.</p>
+            <ul class="item-bullets">
+              <li><strong>비즈니스 계정 전환 (필수)</strong>: 일반 계정보다 정교한 분석 기능을 제공합니다. 어떤 이미지가 클릭을 많이 유도했는지 데이터를 확인하고 콘텐츠 방향을 잡으세요.</li>
+              <li><strong>RSS 피드 연동을 통한 자동화</strong>: 블로그나 웹사이트의 RSS를 연동하면, 새 글이 올라올 때마다 자동으로 핀(Pin)이 생성됩니다. 매번 직접 올릴 필요 없이 <strong>콘텐츠 노출을 자동화</strong>할 수 있는 강력한 팁입니다.</li>
+              <li><strong>보드(Board) 중심 큐레이션</strong>: 카테고리 성격에 맞는 '보드'를 만들고 관련 핀을 모으세요. 핀터레스트 내의 제목과 설명글은 구글 검색 결과에도 인덱싱되어 <strong>장기적인 외부 백링크 역할</strong>을 합니다.</li>
+              <li><strong>콘텐츠 수명과 확장</strong>: 인스타그램과 달리 유입의 수명이 매우 깁니다. 꾸준히 보드를 업데이트하면 시간이 흐를수록 노출이 복리로 쌓여 폭발적인 유입을 만들어냅니다.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- 02. GA4 기본 세팅 -->
+  <!-- ============================================================ -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-number">02</div>
+      <div class="section-title">GA4 기본 세팅</div>
+    </div>
+    <div class="section-desc">Google Analytics 4(GA4)는 "몇 명이 왔는가"를 넘어 "어떤 사람이, 어디서 와서, 무엇을 하고 나갔는가"를 추적하는 도구예요. 세팅하지 않으면 광고비를 쓰면서 결과를 모르는 상태로 운영하는 것과 같습니다.</div>
+    <div class="section-card">
+
+      <!-- 1. GA4 속성 생성 및 GTM 연결 -->
+      <div class="item" onclick="toggleCheck(this)">
+        <div class="checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+        <div class="item-content">
+          <div class="item-title">GA4 속성 생성 및 GTM 연결</div>
+          <a class="item-url" href="https://analytics.google.com" target="_blank" rel="noopener" onclick="event.stopPropagation()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            analytics.google.com
+          </a>
+          <div class="item-detail" onclick="event.stopPropagation()">
+            <div class="item-sub-title">① GA4 속성 만들기</div>
+            <ul class="item-bullets">
+              <li>analytics.google.com → 관리 → 속성 만들기</li>
+              <li>비즈니스 유형, 목표 선택 후 생성</li>
+              <li><strong>측정 ID (G-XXXXXXXXXX) 복사해두기</strong></li>
+            </ul>
+            <div class="item-sub-title">② GTM으로 GA4 설치 (권장)</div>
+            <p class="item-desc">직접 코드를 심는 것보다 GTM을 사용하면 개발자 없이 태그를 관리할 수 있어요.</p>
+            <ul class="item-bullets">
+              <li>GTM → 새 태그 → Google 애널리틱스: GA4 구성</li>
+              <li>측정 ID 입력 → 트리거: All Pages → 저장 후 게시</li>
+            </ul>
+            <div class="item-tip">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+              꿀팁: GTM 미리보기 모드에서 태그가 정상 발동되는지 반드시 확인 후 게시하세요.
+            </div>
+            <div class="item-warning">
+              <strong>⚠️ GA4 설치 시 주의 사항</strong><br>
+              GA4 설치 방법은 크게 두 가지가 있습니다. 반드시 둘 중 하나만 사용해야 하며, 두 개를 같이 설치하지 마세요.<br>
+              1. gtag.js 직접 설치<br>
+              2. GTM을 통한 설치<br>
+              <strong>두 개 동시 설치 시, 데이터가 2배로 나타날 수 있습니다.</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. 반드시 켜야 할 기본 설정 3가지 -->
+      <div class="item" onclick="toggleCheck(this)">
+        <div class="checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+        <div class="item-content">
+          <div class="item-title">반드시 켜야 할 기본 설정 3가지</div>
+          <div class="item-detail" onclick="event.stopPropagation()">
+            <div class="item-sub-title">① 구글 신호 데이터 활성화</div>
+            <ul class="item-bullets">
+              <li>관리 → 속성 → 데이터 설정 → 데이터 수집 → Google 신호 데이터 활성화</li>
+              <li>구글 계정에 로그인한 사용자의 기기 간 이동을 추적할 수 있어요. 모바일로 들어왔다가 PC에서 전환하는 고객을 하나의 사람으로 인식해요.</li>
+            </ul>
+            <div class="item-sub-title">② 데이터 보존 기간 14개월로 변경</div>
+            <ul class="item-bullets">
+              <li>관리 → 속성 → 데이터 설정 → 데이터 보존 → <strong>14개월</strong>로 변경</li>
+              <li>기본값이 2개월이에요. 변경하지 않으면 탐색 분석(Explore)에서 2개월 이전 데이터가 사라져요. <strong>반드시 바꾸세요.</strong></li>
+            </ul>
+            <div class="item-sub-title">③ 내부 트래픽 필터 설정</div>
+            <ul class="item-bullets">
+              <li>관리 → 데이터 스트림 → 태그 설정 구성 → 내부 트래픽 정의 → 내 IP 주소 입력</li>
+              <li>내가 내 사이트를 방문하는 것이 데이터에 섞이지 않도록 제거하는 설정이에요.</li>
+            </ul>
+            <div class="item-tip">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+              꿀팁: IP 주소는 whatismyip.com에서 확인할 수 있어요.
+            </div>
+            <div class="item-bonus-box">
+              <strong>[option] 보고 ID 수정</strong><br>
+              아직 트래픽이 적은 상태라면, 보고 ID를 기기 기반으로 바꿔주세요.<br>
+              관리 → 보고 ID → 모두 표시 → 기기 기반 선택<br>
+              해당 설정은 Google의 신호데이터를 사용하지 않는 대신, 데이터 임계값을 피해줄 수 있어요. 크로스 디바이스 환경에는 약해질 수 있지만 데이터가 감춰지는 부분을 피할 수 있어요.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. 전환 이벤트 설정 -->
+      <div class="item" onclick="toggleCheck(this)">
+        <div class="checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+        <div class="item-content">
+          <div class="item-title">전환 이벤트 설정 — 핵심만 골라서 마킹하기</div>
+          <div class="item-detail" onclick="event.stopPropagation()">
+            <p class="item-desc">GA4는 기본적으로 페이지뷰, 스크롤, 클릭 등을 자동 수집해요. 하지만 "어떤 행동이 비즈니스에 중요한가"는 직접 전환으로 마킹해줘야 해요.</p>
+            <ul class="item-bullets">
+              <li>관리 → 이벤트 → 이벤트 목록에서 원하는 이벤트 옆 토글 → <strong>전환으로 표시</strong></li>
+            </ul>
+            <p class="item-desc"><strong>전환으로 마킹해야 할 것들</strong>:</p>
+            <ul class="item-bullets">
+              <li>폼 제출 완료 (신청, 문의, 구매)</li>
+              <li>감사 페이지(Thank you page) 도달</li>
+              <li>특정 버튼 클릭 (전화 버튼, 카카오톡 버튼 등)</li>
+            </ul>
+            <div class="item-tip">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+              꿀팁: 감사 페이지가 없는 폼이라면 GTM으로 폼 제출 이벤트를 별도로 만들어서 GA4로 보내야 해요.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. UTM 파라미터 -->
+      <div class="item" onclick="toggleCheck(this)">
+        <div class="checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+        <div class="item-content">
+          <div class="item-title">UTM 파라미터 — 어디서 왔는지 반드시 태깅하기</div>
+          <div class="item-detail" onclick="event.stopPropagation()">
+            <p class="item-desc">UTM 없이 링크를 공유하면 GA4에서 유입 경로가 (direct) / (none) 으로 잡혀요. 어느 채널이 실제로 효과 있는지 알 수 없게 돼요.</p>
+            <p class="item-desc"><strong>5가지 파라미터:</strong></p>
+            <div class="item-code">utm_source = 유입 출처 (google, threads, newsletter)
+utm_medium = 매체 유형 (cpc, social, email)
+utm_campaign = 캠페인명 (spring_sale_2026)
+utm_content = 소재 구분 (banner_A, text_link)
+utm_term = 키워드 (검색광고에서 사용)</div>
+            <div class="item-tip">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+              생성 방법: Google Campaign URL Builder에서 무료로 만들 수 있어요.
+            </div>
+            <div class="item-tip" style="margin-top:6px;">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+              꿀팁: 스레드, 이메일, 유튜브 등 채널마다 다른 UTM을 붙이면 "어느 채널이 실제 전환을 가져왔는가"를 GA4에서 정확히 비교할 수 있어요. 특히 소문자 통일, 띄어쓰기 대신 언더바(_) 사용이 데이터 정합성을 지키는 기본 룰이에요.
+            </div>
+            <div class="item-warning">
+              <strong>⚠️ UTM 사용이 익숙하지 않다면 구글이 사전 정의한 UTM을 쓰세요.</strong><br>
+              UTM을 사전정의한 사항으로 사용할 경우, 채널 분류가 자연스럽게 진행됩니다. 즉, 세부적인 데이터를 보지 않아도 채널이라는 큰 단위로서의 효율 확인에 용이합니다.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5. 이벤트 네이밍 -->
+      <div class="item" onclick="toggleCheck(this)">
+        <div class="checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+        <div class="item-content">
+          <div class="item-title">이벤트 네이밍 — 구글이 제안하는 이벤트 이름 사용하기</div>
+          <div class="item-detail" onclick="event.stopPropagation()">
+            <p class="item-desc">구글이 사전 정의한 이벤트명을 쓸 경우, 구글 애널리틱스의 데이터 보기를 더 원활하게 사용할 수 있어요. 예를 들어, 폼 제출을 generate_lead를 사용할 경우 보고서 → 비즈니스 목표 중 리드 생성 보고서에서 볼 수 있게 됩니다.</p>
+            <a class="item-url" href="https://support.google.com/analytics/answer/9267735?hl=ko" target="_blank" rel="noopener" onclick="event.stopPropagation()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+              Google 추천 이벤트 목록 보기
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 6. Google Ads 연결 -->
+      <div class="item" onclick="toggleCheck(this)">
+        <div class="checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+        <div class="item-content">
+          <div class="item-title">Google Ads 연결 — 광고 데이터를 GA로 보기</div>
+          <div class="item-detail" onclick="event.stopPropagation()">
+            <p class="item-desc">Google Ads를 GA4와 연결할 경우, 광고 데이터를 GA4에서 볼 수 있어요. 게다가 잠재고객을 Ads에서 활용할 수도 있어요.</p>
+            <ul class="item-bullets">
+              <li>관리 → 제품 링크 → Google Ads 링크</li>
+            </ul>
+            <div class="item-bonus-box">
+              <strong>[Bonus] Google Search Console도 제품 연결하세요</strong><br>
+              경로: 왼쪽 아래 ⚙️ 클릭 → 속성 설정 → 제품 링크 → Search Console 링크 → 연결<br>
+              앞서 만든 Search Console 계정을 연결하면 [보고서] 탭에 Search Console이 생성됩니다.
+            </div>
+            <div class="item-warning">
+              <strong>⚠️ Google Ads는 가급적 빠르게 연결하는게 좋습니다.</strong><br>
+              Google Ads는 연결 전 데이터는 볼 수 없기 때문에 빠르게 연결하는게 좋습니다. Google Search Console은 연결 전 데이터도 볼 수 있으니, 급하진 않습니다.<br><br>
+              <strong>왜 Ads는 이전 데이터를 볼 수 없을까?</strong><br>
+              Google Ads 데이터는 GA4와 연결 시, 실시간 동기화로 Analytics 서버에 데이터가 저장됩니다. 그렇기에 실시간 동기화가 되지 못한 과거 데이터는 볼 수 없죠. 반대로 Google Search Console(이하 GSC)은 실시간 동기화가 아닌 GA4가 GSC의 데이터를 단순 '조회'하는 역할입니다.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 7. 잠재고객 설정 -->
+      <div class="item" onclick="toggleCheck(this)">
+        <div class="checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+        <div class="item-content">
+          <div class="item-title">잠재고객 설정 — 광고를 준비한다면 미리 설정하기</div>
+          <div class="item-detail" onclick="event.stopPropagation()">
+            <p class="item-desc">잠재고객은 이전 데이터를 기준으로 생성되는게 아닌, 설정한 시점부터 데이터가 쌓이게 됩니다. 그렇기에 가급적 미리 설정하는 것이 좋습니다.</p>
+            <ul class="item-bullets">
+              <li>관리 → 데이터 표시 → 구축 → 새 잠재고객</li>
+            </ul>
+            <p class="item-desc">조건에 맞춘 고객을 분류화하고, 광고 모수로 사용할 수 있어요. 아직 조건을 고민하고 있다면 아래 조건을 만들어 놓아보세요:</p>
+            <ol class="item-numbered">
+              <li><strong>회원가입 완료자</strong> — 주요 타겟</li>
+              <li><strong>세션 시간 3초(또는 그 이상) 이상</strong> — 단순 유입이 아닌 모수</li>
+              <li><strong>조회수 2회(또는 그 이상) 이상</strong> — 단순 유입이 아닌 모수</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+
+      <!-- 8. 실시간 UTM / 이벤트 확인 -->
+      <div class="item" onclick="toggleCheck(this)">
+        <div class="checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+        <div class="item-content">
+          <div class="item-title">[Bonus] 실시간 UTM / 이벤트 확인하는 방법</div>
+          <div class="item-detail" onclick="event.stopPropagation()">
+            <div class="item-sub-title">① Google Analytics에서 확인하기</div>
+            <ul class="item-bullets">
+              <li><strong>UTM 값 확인</strong>: [보고서] → 실시간 개요 → [이벤트 이름별 이벤트 수] 카드에서 pageview 이벤트 클릭 → campaign, medium, source, term 등 클릭 → 값 확인</li>
+              <li><strong>이벤트 확인</strong>: [보고서] → 실시간 개요 → [이벤트 이름별 이벤트 수] 카드에서 확인</li>
+            </ul>
+            <img class="item-image" src="images/ga4-realtime.jpg" alt="GA4 실시간 보고서 화면">
+            <div class="item-image-caption">GA4 실시간 개요 — 사용자, 잠재고객, 페이지, 이벤트 카드</div>
+            <img class="item-image" src="images/ga4-utm-campaign.jpg" alt="GA4 UTM campaign 확인 화면">
+            <div class="item-image-caption">pageview → campaign 클릭 후 화면 (utm_campaign에 설정한 값이 보임)</div>
+            <div class="item-sub-title">② Omnibug 크롬 확장 프로그램으로 확인하기</div>
+            <ul class="item-bullets">
+              <li>크롬에서만 작동하는 확장 프로그램입니다.</li>
+              <li>우리 사이트 뿐 아니라 존재하는 모든 사이트에 어떤 것이 깔려있고, 어떤 이벤트가 언제 발생하는지 확인할 수 있습니다.</li>
+              <li>(omnibug 설치 후) F12 또는 개발자모드 진입 → Omnibug 탭 클릭 → 액션 수행</li>
+            </ul>
+            <img class="item-image" src="images/omnibug.jpg" alt="Omnibug 크롬 확장 프로그램 사용 화면">
+            <div class="item-image-caption">Omnibug — GA4, GTM, Clarity 등 설치된 태그와 이벤트를 실시간 확인</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- 03. 사용자 행동 분석 도구 -->
+  <!-- ============================================================ -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-number">03</div>
+      <div class="section-title">사용자 행동 분석 도구</div>
+    </div>
+    <div class="section-desc">웹사이트의 성과를 측정하지 않으면 개선할 수도 없습니다. 분석 도구를 통해 방문자 행동, 유입 경로, 전환율 등을 추적하고, 데이터 기반 의사결정을 내릴 수 있습니다.</div>
+    <div class="section-card">
+
+      <!-- 1. Microsoft Clarity -->
+      <div class="item" onclick="toggleCheck(this)">
+        <div class="checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+        <div class="item-content">
+          <div class="item-title">Microsoft Clarity (GTM으로 설치)</div>
+          <div class="item-detail" onclick="event.stopPropagation()">
+            <p class="item-desc"><strong>도입 이유</strong>: 구글 애널리틱스(GA4)가 "몇 명이 들어왔나"를 보여준다면, 클라리티는 <strong>"왜 나갔는가"를 시각적으로 보여줍니다</strong>.</p>
+            <ul class="item-bullets">
+              <li><strong>주요 기능</strong>: 사용자의 움직임을 녹화하는 <strong>세션 기록</strong>, 클릭과 스크롤을 보여주는 <strong>히트맵</strong> 제공.</li>
+            </ul>
+            <div class="item-tip">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+              팁: GTM(Google Tag Manager)을 사용해 '사용자 정의 HTML'로 설치하고 트리거를 'All Pages'로 설정하면 개발 지식 없이도 모든 페이지의 사용자 행동을 확인할 수 있습니다.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. Meta Pixel -->
+      <div class="item" onclick="toggleCheck(this)">
+        <div class="checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+        <div class="item-content">
+          <div class="item-title">Meta Pixel 설치</div>
+          <a class="item-url" href="https://business.facebook.com/events-manager" target="_blank" rel="noopener" onclick="event.stopPropagation()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            business.facebook.com/events-manager
+          </a>
+          <div class="item-detail" onclick="event.stopPropagation()">
+            <p class="item-desc">Meta Pixel(구 Facebook Pixel)은 Instagram과 Facebook 광고 캠페인의 성과를 추적하고 최적화하는 핵심 도구입니다. 웹사이트 방문자의 행동 데이터를 수집하여 리타겟팅 오디언스를 구축하고, 유사 타겟을 생성할 수 있습니다.</p>
+            <div class="item-tip">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+              iOS 14 이후 ATT 정책으로 인해 Conversions API(CAPI)를 함께 설정하면 데이터 손실을 최소화할 수 있습니다.
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- 04. SEO 및 기술 설정 -->
+  <!-- ============================================================ -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-number">04</div>
+      <div class="section-title">SEO 및 기술 설정</div>
+    </div>
+    <div class="section-desc">기술적 SEO는 검색엔진이 사이트를 효과적으로 크롤링하고 색인할 수 있도록 하는 기반 작업입니다. 아무리 좋은 콘텐츠를 만들어도 기술적 SEO가 부실하면 검색 결과 상위에 노출되기 어렵습니다.</div>
+    <div class="section-card">
+
+      <!-- 1. XML Sitemap -->
+      <div class="item" onclick="toggleCheck(this)">
+        <div class="checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+        <div class="item-content">
+          <div class="item-title">XML Sitemap 생성 및 제출</div>
+          <a class="item-url" href="https://www.xml-sitemaps.com" target="_blank" rel="noopener" onclick="event.stopPropagation()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            xml-sitemaps.com
+          </a>
+          <div class="item-tip">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+            생성 후 위의 모든 검색엔진에 제출하세요
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. robots.txt -->
+      <div class="item" onclick="toggleCheck(this)">
+        <div class="checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+        <div class="item-content">
+          <div class="item-title">robots.txt 설정</div>
+          <a class="item-url" href="https://developers.google.com/search/docs/crawling-indexing/robots/intro" target="_blank" rel="noopener" onclick="event.stopPropagation()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            Google robots.txt 가이드
+          </a>
+        </div>
+      </div>
+
+      <!-- 3. SSL -->
+      <div class="item" onclick="toggleCheck(this)">
+        <div class="checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+        <div class="item-content">
+          <div class="item-title">SSL 인증서 (HTTPS) 확인</div>
+          <a class="item-url" href="https://www.ssllabs.com/ssltest/" target="_blank" rel="noopener" onclick="event.stopPropagation()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            ssllabs.com/ssltest
+          </a>
+          <div class="item-tip">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+            여기서 SSL 설정 테스트 가능
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. Core Web Vitals -->
+      <div class="item" onclick="toggleCheck(this)">
+        <div class="checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+        <div class="item-content">
+          <div class="item-title">Core Web Vitals 점검</div>
+          <a class="item-url" href="https://pagespeed.web.dev" target="_blank" rel="noopener" onclick="event.stopPropagation()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            pagespeed.web.dev
+          </a>
+          <div class="item-tip">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+            페이지 속도 및 성능 점수 확인
+          </div>
+        </div>
+      </div>
+
+      <!-- 5. 모바일 반응형 -->
+      <div class="item" onclick="toggleCheck(this)">
+        <div class="checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+        <div class="item-content">
+          <div class="item-title">모바일 반응형 테스트</div>
+          <a class="item-url" href="https://search.google.com/test/mobile-friendly" target="_blank" rel="noopener" onclick="event.stopPropagation()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            Google 모바일 친화성 테스트
+          </a>
+        </div>
+      </div>
+
+      <!-- 6. Open Graph -->
+      <div class="item" onclick="toggleCheck(this)">
+        <div class="checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+        <div class="item-content">
+          <div class="item-title">Open Graph 메타태그 설정</div>
+          <a class="item-url" href="https://www.opengraph.xyz" target="_blank" rel="noopener" onclick="event.stopPropagation()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            opengraph.xyz
+          </a>
+          <div class="item-tip">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+            SNS 공유 시 미리보기 확인
+          </div>
+        </div>
+      </div>
+
+      <!-- 7. Favicon -->
+      <div class="item" onclick="toggleCheck(this)">
+        <div class="checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+        <div class="item-content">
+          <div class="item-title">Favicon 설정</div>
+          <a class="item-url" href="https://realfavicongenerator.net" target="_blank" rel="noopener" onclick="event.stopPropagation()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            realfavicongenerator.net
+          </a>
+        </div>
+      </div>
+
+      <!-- 8. 404 -->
+      <div class="item" onclick="toggleCheck(this)">
+        <div class="checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+        <div class="item-content">
+          <div class="item-title">404 에러 페이지 설정</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- 05. 이메일 마케팅 -->
+  <!-- ============================================================ -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-number">05</div>
+      <div class="section-title">이메일 마케팅: 진짜 '고객'만 남기는 필터링 전략</div>
+    </div>
+    <div class="section-desc">이메일 마케팅은 ROI가 가장 높은 마케팅 채널 중 하나입니다(평균 $36 회수 / $1 투자). 웹사이트에 이메일 수집 폼을 설치하고 뉴스레터 서비스와 연동하세요.</div>
+    <div class="section-card">
+
+      <!-- 1. 가짜 DB 걸러내기 -->
+      <div class="item" onclick="toggleCheck(this)">
+        <div class="checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+        <div class="item-content">
+          <div class="item-title">자동화 이메일로 가짜 DB(Fake Lead) 걸러내기</div>
+          <div class="item-detail" onclick="event.stopPropagation()">
+            <p class="item-desc">랜딩 페이지에서 리드를 수집하다 보면, 허위 이메일 주소를 남기는 방문자가 반드시 발생합니다. 마치 결제 보안을 위해 굳이 복잡한 비밀번호를 입력하는 깐깐한 사용자들처럼 말이죠.</p>
+            <ul class="item-bullets">
+              <li><strong>전략</strong>: 리드 등록 직후, 감사 인사와 자료 링크가 담긴 <strong>자동 팔로업 메일</strong>을 즉시 발송하세요.</li>
+              <li><strong>효과</strong>: 메일 전송 실패(Soft/Hard Bounce) 여부를 확인하여 가짜 데이터를 즉시 삭제할 수 있습니다. '진짜 사람'으로만 구성된 리스트는 향후 마케팅 효율을 <strong>200% 이상 상승</strong>시킵니다.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. 랜딩 페이지 탈출구 차단 -->
+      <div class="item" onclick="toggleCheck(this)">
+        <div class="checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+        <div class="item-content">
+          <div class="item-title">랜딩 페이지의 '탈출구'를 과감히 차단하기</div>
+          <div class="item-detail" onclick="event.stopPropagation()">
+            <p class="item-desc">랜딩 페이지의 유일한 목표는 '전환'입니다. 고객이 폼을 채우기도 전에 다른 곳으로 눈을 돌리게 해서는 안 됩니다.</p>
+            <ul class="item-bullets">
+              <li><strong>전략</strong>: 광고/PPC 전용 랜딩 페이지에서는 상단 <strong>네비게이션 메뉴와 외부 링크를 과감히 제거</strong>하세요.</li>
+              <li><strong>효과</strong>: 불필요한 방해 요소를 없애면 고객은 '폼 작성'이라는 단 하나의 행동에만 집중하게 됩니다. 전환율은 이러한 사소한 디테일에서 결정됩니다.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. 그레이 메일 -->
+      <div class="item" onclick="toggleCheck(this)">
+        <div class="checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+        <div class="item-content">
+          <div class="item-title">'그레이 메일(Grey-mail)'과 작별하기</div>
+          <div class="item-detail" onclick="event.stopPropagation()">
+            <p class="item-desc">한때는 구독자였으나 현재는 메시지에 전혀 반응하지 않는 '유령 구독자'는 장기적으로 브랜드에 해가 됩니다.</p>
+            <ul class="item-bullets">
+              <li><strong>문제점</strong>: 반응 없는 이들에게 계속 메일을 보내는 것은 캠페인 성공률을 떨어뜨리고 데이터 분석 결과를 왜곡합니다.</li>
+              <li><strong>전략</strong>: 일정 기간 클릭이나 오픈이 없는 리스트를 추출하여, <strong>정기 발송 목록에서 과감히 제외</strong>하세요. 냉정한 정리가 건강한 도달률을 만듭니다.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- 06. 비즈니스 및 마케팅 -->
+  <!-- ============================================================ -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-number">06</div>
+      <div class="section-title">비즈니스 및 마케팅</div>
+    </div>
+    <div class="section-desc">기술적 설정이 끝났다면, 이제 비즈니스 성장을 위한 마케팅 도구를 연동할 차례입니다. 런칭 전에 이 기반을 미리 구축해두면, 첫 방문자부터 리드로 전환하고 장기적인 고객 관계를 만들 수 있습니다.</div>
+    <div class="section-card">
+
+      <!-- 1. Google Ads 전환 추적 -->
+      <div class="item" onclick="toggleCheck(this)">
+        <div class="checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+        <div class="item-content">
+          <div class="item-title">Google Ads 전환 추적 설정</div>
+          <a class="item-url" href="https://ads.google.com" target="_blank" rel="noopener" onclick="event.stopPropagation()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            ads.google.com
+          </a>
+          <div class="item-tip">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+            광고 진행 예정이라면 미리 세팅. GTM에서 전환 추적 태그를 설정하면 나중에 광고 시작 시 즉시 데이터 수집이 가능합니다.
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. 개인정보처리방침 -->
+      <div class="item" onclick="toggleCheck(this)">
+        <div class="checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+        <div class="item-content">
+          <div class="item-title">개인정보처리방침 / 이용약관 페이지</div>
+        </div>
+      </div>
+
+      <!-- 3. 쿠키 동의 배너 -->
+      <div class="item" onclick="toggleCheck(this)">
+        <div class="checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+        <div class="item-content">
+          <div class="item-title">쿠키 동의 배너 설치</div>
+          <a class="item-url" href="https://www.cookieyes.com" target="_blank" rel="noopener" onclick="event.stopPropagation()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            cookieyes.com
+          </a>
+          <div class="item-tip">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+            PIPEDA / GDPR 컴플라이언스 필수
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- 07. 로컬 SEO (Local SEO) -->
+  <!-- ============================================================ -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-number">07</div>
+      <div class="section-title">[추가 꿀팁] 로컬 SEO: 지역 기반 노출 전략</div>
+    </div>
+    <div class="section-desc">오프라인 매장이 있거나 특정 지역을 기반으로 서비스한다면, 검색 엔진 등록만큼이나 '지도 및 지역 정보 서비스' 등록이 중요합니다.</div>
+    <div class="section-card">
+
+      <!-- 1. Google Maps -->
+      <div class="item" onclick="toggleCheck(this)">
+        <div class="checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+        <div class="item-content">
+          <div class="item-title">Google Maps (구글 비즈니스 프로필)</div>
+          <a class="item-url" href="https://business.google.com" target="_blank" rel="noopener" onclick="event.stopPropagation()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            business.google.com
+          </a>
+          <div class="item-detail" onclick="event.stopPropagation()">
+            <p class="item-desc">가게 정보(소개글)에 내가 직접 쓴 내용과 함께, <strong>고객이 남겨준 리뷰 속 단어도</strong> 검색 노출에 더 강력한 힘을 발휘합니다.(네이버도 동일)</p>
+            <ul class="item-bullets">
+              <li><strong>리뷰는 검색엔진의 데이터 소스</strong>: 검색엔진은 고객 리뷰를 긁어와 내용을 분석합니다.
+                <br><strong>예시</strong>: 병원 정보에 '영어 진료'를 적어두지 않았더라도, <strong>고객이 리뷰에 "영어 진료가 가능해서 편해요"라는 흔적을 남겨주면</strong>, 검색엔진은 이를 근거로 [강남 영어진료 병원] 검색 결과에 해당 병원을 노출시킵니다.</li>
+              <li><strong>구체적인 리뷰 유도</strong>: "맛있어요", "최고예요" 같은 단순 감탄사는 검색 데이터로서 가치가 낮습니다. "쌀빵 진짜 맛있어요. 아기랑 오기 너무 좋아요"처럼 메뉴명과 구체적인 상황이 담긴 리뷰를 고객이 남겨줄 때 노출 확률이 극대화됩니다.</li>
+              <li><strong>언어별 노출 전략 (구글)</strong>: 구글은 언어별 데이터를 별도로 분석합니다. 외국인 고객이 영어 리뷰로 'Vegan Bagel'이라는 단어를 많이 남겨주면, 영어로 검색하는 유저들에게 우선적으로 노출됩니다.</li>
+              <li><strong>사장님 답글의 보조 역할</strong>: 만약 고객 리뷰에 핵심 키워드가 빠졌다면, 사장님이 답글을 통해 "저희 매장의 '비건 베이글'을 좋아해 주셔서 감사합니다!"와 같이 키워드 단서를 보강해 줄 수 있습니다.</li>
+            </ul>
+            <p class="item-source">(팁 출처: threads @avcd.eee 계정)</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. Naver Place -->
+      <div class="item" onclick="toggleCheck(this)">
+        <div class="checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+        <div class="item-content">
+          <div class="item-title">Naver Place (네이버 플레이스) <span class="tag-kr">한국</span></div>
+          <div class="item-detail" onclick="event.stopPropagation()">
+            <p class="item-desc">네이버 플레이스는 단순히 등록하는 것을 넘어, '네이버가 신뢰할 수 있는 데이터'를 얼마나 촘촘하게 제공하느냐가 순위를 결정합니다.</p>
+
+            <div class="item-sub-title">① 운영 효율 극대화 5단계</div>
+            <ul class="item-bullets">
+              <li><strong>정보 및 기능 풀 세팅</strong>: 운영시간, 메뉴, 찾아오는 길을 상세히 적는 것은 기본입니다. 여기에 <strong>스마트콜, 네이버 예약, 톡톡, 쿠폰</strong> 기능을 모두 활성화하여 고객의 체류 시간을 늘리세요. 네이버는 활동성이 높은 매장을 상단에 노출합니다.</li>
+              <li><strong>유입 및 재방문 설계</strong>: 플레이스 광고와 SNS(인스타, 스레드) 유입을 병행하세요. 한 번 온 고객이 다시 오도록 <strong>리뷰 답글, 재방문 전용 쿠폰, 톡톡 마케팅</strong>을 활용해 선순환 구조를 만들어야 합니다.</li>
+              <li><strong>세부 키워드 전략</strong>: '맛집' 같은 메인 키워드는 등락이 심하고 비용이 많이 듭니다. 검색량은 적어도 순위 유지가 쉬운 <strong>뾰족한 세부 키워드</strong>를 여러 개 확보하여 매출의 베이스를 만드세요.</li>
+            </ul>
+
+            <div class="item-sub-title">② 500만 원 상당의 '대표 키워드' 세팅 꿀팁</div>
+            <ul class="item-bullets">
+              <li><strong>중복 제거와 조합의 기술</strong>: 대표 키워드는 총 5개(각 15자) 설정 가능합니다. 네이버는 키워드를 <strong>교차 조합</strong>해서 인식하므로, 1번과 5번에 있는 단어가 합쳐져 검색 결과에 반영됩니다. 따라서 <strong>중복 단어를 넣지 말고</strong> 최대한 다양한 단어를 배치하세요.</li>
+              <li><strong>행정명 인식의 비밀</strong>: 네이버가 인식하는 공식 행정명은 안 넣어도 자동으로 잡힙니다. 하지만 <strong>줄임말, 구 명칭, 대학교 앞</strong> 등 공식 명칭이 아닌 키워드는 반드시 대표 키워드에 수동으로 넣어줘야 합니다.</li>
+              <li><strong>형태소 단위 체크</strong>: 키워드 등록 후 반드시 직접 검색해 보세요. 네이버가 단어를 끊어서 인식(형태소 분석)하는 단위가 내 의도와 다를 수 있습니다.</li>
+              <li><strong>공급자 마인드 버리기</strong>: 내가 팔고 싶은 메뉴 이름이 '버럴떡'이라도 고객이 '버터떡'으로 검색한다면, 키워드는 반드시 '버터떡'으로 등록해야 합니다.</li>
+            </ul>
+            <p class="item-source">(팁 출처: threads @place_joe 계정)</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. Kakao Maps -->
+      <div class="item" onclick="toggleCheck(this)">
+        <div class="checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+        <div class="item-content">
+          <div class="item-title">Kakao Maps (카카오맵 / 카카오 비즈니스) <span class="tag-kr">한국</span></div>
+          <div class="item-detail" onclick="event.stopPropagation()">
+            <ul class="item-bullets">
+              <li><strong>등록 이유</strong>: 국내 모바일 메신저 점유율 1위인 <strong>카카오톡 내 '장소 공유' 및 검색</strong>과 연동됩니다. 한국 유저들이 맛집이나 장소를 찾을 때 네이버만큼이나 많이 사용하는 서비스입니다.</li>
+              <li><strong>효과</strong>: 카카오톡 내비게이션, 카카오 택시 등 카카오의 모든 모바일 생태계에 내 비즈니스 위치 정보가 노출됩니다.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. Yelp -->
+      <div class="item" onclick="toggleCheck(this)">
+        <div class="checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+        <div class="item-content">
+          <div class="item-title">Yelp (옐프)</div>
+          <div class="item-detail" onclick="event.stopPropagation()">
+            <ul class="item-bullets">
+              <li><strong>등록 이유</strong>: 북미권 유저들이 맛집이나 로컬 서비스를 찾을 때 가장 먼저 사용하는 플랫폼입니다. 특히 애플 지도(Apple Maps)와 야후(Yahoo) 검색 결과의 로컬 데이터는 대부분 Yelp 정보를 기반으로 노출됩니다.</li>
+              <li><strong>효과</strong>: 아이폰 사용자들이 시리(Siri)나 지도를 통해 내 비즈니스를 찾을 때 정보가 누락되지 않도록 방어하고 유입을 극대화합니다.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- 08. 보안 및 이메일 -->
+  <!-- ============================================================ -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-number">08</div>
+      <div class="section-title">보안 및 이메일</div>
+    </div>
+    <div class="section-desc">웹사이트 보안은 런칭 이후에도 지속적으로 관리해야 하는 영역입니다. 이메일 인증(DMARC/DKIM/SPF)을 올바르게 설정하지 않으면 도메인이 스팸으로 분류되거나 피싱에 악용될 수 있습니다.</div>
+    <div class="section-card">
+
+      <!-- 1. DMARC / DKIM / SPF -->
+      <div class="item" onclick="toggleCheck(this)">
+        <div class="checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+        <div class="item-content">
+          <div class="item-title">DMARC / DKIM / SPF 설정</div>
+          <div class="item-tip">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+            설정 후 MXToolbox(mxtoolbox.com)에서 DMARC, DKIM, SPF Lookup을 각각 실행하여 정상 설정 여부를 확인하세요
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. 정기 백업 -->
+      <div class="item" onclick="toggleCheck(this)">
+        <div class="checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+        <div class="item-content">
+          <div class="item-title">정기 백업 설정</div>
+          <div class="item-tip">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+            주간 또는 일간 자동 백업 권장
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. WAF -->
+      <div class="item" onclick="toggleCheck(this)">
+        <div class="checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+        <div class="item-content">
+          <div class="item-title">보안 플러그인 / WAF 설정</div>
+          <a class="item-url" href="https://www.cloudflare.com" target="_blank" rel="noopener" onclick="event.stopPropagation()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            cloudflare.com
+          </a>
+          <div class="item-tip">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+            Cloudflare (무료 플랜 가능) 또는 유사 서비스
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Reset Button -->
+  <div style="text-align: center;">
+    <button class="reset-btn" onclick="resetAll()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 119 9"/><polyline points="3 3 3 12 12 12"/></svg>
+      모두 초기화
+    </button>
+  </div>
+
+</main>
+
+<!-- Footer -->
+<div class="footer">
+  <div class="footer-card">
+    <div class="footer-label">DMVS 2026 Webinar 공식 자료</div>
+    <div class="footer-title">웹사이트 런칭 키트: 완벽 셋업 체크리스트</div>
+    <div class="footer-text">
+      본 체크리스트는 가이드 목적이며, 프로젝트에 따라 필요 항목이 다를 수 있습니다.
+    </div>
+    <div class="footer-copyright">
+      &copy; 2026 DMVS. All rights reserved.<br>
+      본 자료는 DMVS 2026 Webinar 참석자를 위해 제작되었으며,<br>
+      무단 복제, 배포, 전재 및 상업적 이용을 금합니다.
+    </div>
+  </div>
+</div>
+
+<!-- Confetti Canvas -->
+<canvas class="confetti-overlay" id="confettiCanvas"></canvas>
+
+<script>
+  const STORAGE_KEY = 'dmvs-checklist-2026-v4';
+
+  function init() {
+    const items = document.querySelectorAll('.item');
+    const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+    items.forEach((item, i) => {
+      if (saved.includes(i)) item.classList.add('checked');
+    });
+    updateProgress();
+    document.getElementById('totalCount').textContent = items.length;
+  }
+
+  function toggleCheck(el) {
+    el.classList.toggle('checked');
+    saveState();
+    updateProgress();
+  }
+
+  function saveState() {
+    const items = document.querySelectorAll('.item');
+    const checked = [];
+    items.forEach((item, i) => {
+      if (item.classList.contains('checked')) checked.push(i);
+    });
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(checked));
+  }
+
+  function updateProgress() {
+    const total = document.querySelectorAll('.item').length;
+    const checked = document.querySelectorAll('.item.checked').length;
+    const pct = total > 0 ? Math.round((checked / total) * 100) : 0;
+
+    document.getElementById('checkedCount').textContent = checked;
+    document.getElementById('progressFill').style.width = pct + '%';
+    document.getElementById('progressPercent').textContent = pct + '%';
+
+    if (checked === total && total > 0) {
+      celebrate();
+    }
+  }
+
+  function resetAll() {
+    document.querySelectorAll('.item.checked').forEach(item => {
+      item.classList.remove('checked');
+    });
+    localStorage.removeItem(STORAGE_KEY);
+    updateProgress();
+  }
+
+  // Simple confetti celebration
+  function celebrate() {
+    const canvas = document.getElementById('confettiCanvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    canvas.classList.add('active');
+
+    const colors = ['#03c659', '#06d66a', '#1a1a1a', '#ffffff', '#fbbf24', '#3b82f6'];
+    const particles = [];
+
+    for (let i = 0; i < 120; i++) {
+      particles.push({
+        x: Math.random() * canvas.width,
+        y: -20 - Math.random() * 200,
+        w: 6 + Math.random() * 6,
+        h: 4 + Math.random() * 4,
+        color: colors[Math.floor(Math.random() * colors.length)],
+        vy: 2 + Math.random() * 4,
+        vx: (Math.random() - 0.5) * 3,
+        rot: Math.random() * 360,
+        rotSpeed: (Math.random() - 0.5) * 10,
+        opacity: 1,
+      });
+    }
+
+    let frame = 0;
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      let alive = false;
+      particles.forEach(p => {
+        if (p.opacity <= 0) return;
+        alive = true;
+        ctx.save();
+        ctx.translate(p.x, p.y);
+        ctx.rotate((p.rot * Math.PI) / 180);
+        ctx.globalAlpha = p.opacity;
+        ctx.fillStyle = p.color;
+        ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+        ctx.restore();
+
+        p.y += p.vy;
+        p.x += p.vx;
+        p.rot += p.rotSpeed;
+        p.vy += 0.08;
+        if (frame > 60) p.opacity -= 0.015;
+      });
+      frame++;
+      if (alive && frame < 200) {
+        requestAnimationFrame(draw);
+      } else {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        canvas.classList.remove('active');
+      }
+    }
+    draw();
+  }
+
+  init();
+</script>
+</body>
+</html>
