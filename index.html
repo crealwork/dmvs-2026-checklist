@@ -497,69 +497,6 @@
 
   .item-bonus-box strong { color: #1e3a8a; }
 
-  /* ── Top Banner ── */
-  .top-banner {
-    background: var(--dark-header);
-    border-bottom: 2px solid var(--green);
-    padding: 14px 24px;
-    text-align: center;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-  }
-
-  .top-banner-inner {
-    max-width: 880px;
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 16px;
-    flex-wrap: wrap;
-  }
-
-  .top-banner-text {
-    font-size: 14px;
-    color: var(--gray-400);
-    line-height: 1.5;
-  }
-
-  .top-banner-text strong {
-    color: var(--white);
-  }
-
-  .top-banner-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    background: var(--green);
-    color: var(--white);
-    font-family: inherit;
-    font-size: 13px;
-    font-weight: 600;
-    padding: 8px 20px;
-    border-radius: 100px;
-    border: none;
-    cursor: pointer;
-    text-decoration: none;
-    transition: all var(--transition);
-    flex-shrink: 0;
-  }
-
-  .top-banner-btn:hover {
-    background: var(--green-dark);
-    box-shadow: 0 4px 12px rgba(3,198,89,0.3);
-  }
-
-  .top-banner-btn svg {
-    width: 14px;
-    height: 14px;
-  }
-
-  @media print {
-    .top-banner { display: none; }
-  }
-
   /* ── Footer ── */
   .footer {
     max-width: 880px;
@@ -686,17 +623,6 @@
 </style>
 </head>
 <body>
-
-<!-- Top Banner -->
-<div class="top-banner">
-  <div class="top-banner-inner">
-    <span class="top-banner-text"><strong>2026년 5월 8일</strong> 이후 본 페이지는 비공개 전환됩니다.</span>
-    <a class="top-banner-btn" href="DMVS_2026_checklist.pdf" download>
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-      PDF 다운로드
-    </a>
-  </div>
-</div>
 
 <!-- Header -->
 <header class="header">
